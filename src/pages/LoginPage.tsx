@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { login, extractToken } from "../services/auth.service";
 import axios from "../services/axios";
+import { useAppDispatch } from "../redux/store";
+import { setAuth } from "../redux/auth/authSlice";
 
-export default function LoginPage() 
-{
+export default function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
@@ -38,6 +40,26 @@ export default function LoginPage()
 
       // axios global header
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      //extract the role from the token
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const role = payload.role;
+      dispatch(setAuth({
+        user: {
+          id: id as string,
+          firstName: firstName as string,
+          lastName: lastName as string,
+          role: role
+        },
+        token: token
+      }));
+
+
+      if (role == "Teacher") {
+        navigate("/teacherPage")
+        return
+      }
+
 
       navigate("/");
     } catch (err) {

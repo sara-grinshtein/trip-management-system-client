@@ -1,16 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { register } from "../services/auth.service";
+import { extractToken, register } from "../services/auth.service";
+import { useAppDispatch } from "../redux/store";
+import { setAuth } from "../redux/auth/authSlice";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [message, setMessage] = useState("");
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-
     const id = formData.get("id")?.toString();
     const firstName = formData.get("firstName")?.toString();
     const lastName = formData.get("lastName")?.toString();
@@ -23,16 +26,27 @@ export default function RegisterPage() {
     }
 
     try {
-      await register({
-        id,
-        firstName,
-        lastName,
+      const data = await register({
+        id, firstName, lastName,
         role: role as "Student" | "Teacher",
         class: userClass,
       });
 
+      const token = extractToken(data)
+
+
+      dispatch(setAuth({
+        user: {
+          id,
+          firstName,
+          lastName,
+          role: role as "Student" | "Teacher"
+        },
+        token: token as string
+      }));
+
       setMessage("Registered successfully!");
-      setTimeout(() => navigate("/login"), 1500);
+      setTimeout(() => navigate("/"), 1500);
 
     } catch (err: any) {
       setMessage(err.response?.data || "Registration failed");
