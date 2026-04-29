@@ -4,6 +4,7 @@ import { RootState } from "../redux/store";
 import { getStudentLocation } from "../services/teacher.service";
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { Location, Coordinate } from "../types/Location.types";
+import styles from "./TeacherPage.module.css";
 
 export default function TeacherPage() {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -47,7 +48,7 @@ export default function TeacherPage() {
       })
       .filter(Boolean) as { lat: number; lng: number }[];
 
-    if (!valid.length) return { lat: 32.0853, lng: 34.7818 };
+    // if (!valid.length) return { lat: 32.0853, lng: 34.7818 };
 
     const avgLat = valid.reduce((sum, p) => sum + p.lat, 0) / valid.length;
     const avgLng = valid.reduce((sum, p) => sum + p.lng, 0) / valid.length;
@@ -55,63 +56,132 @@ export default function TeacherPage() {
     return { lat: avgLat, lng: avgLng };
   };
 
-  return (
-    <APIProvider apiKey={apiKey!} libraries={['marker']}>
-      <Map
-        mapId={mapId}
-        defaultCenter={getCenter()}
-        defaultZoom={12}
-        style={{ width: "100%", height: "500px" }}
-      >
+    return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>
+        מפת מיקומי התלמידות:
+      </h1>
 
-        {locations.map((loc: Location, index: number) => {
-          //print
-          console.log(loc.latitude);
+      <p className={styles.description}>
+        במפה זו תוכלי לצפות במיקומי התלמידות
+      </p>
 
-          const lat = convertToDecimal(loc.latitude);
-          const lng = convertToDecimal(loc.longitude);
+      <div className={styles.mapContainer}>
+        <APIProvider apiKey={apiKey!} libraries={['marker']}>
+          <Map
+            mapId={mapId}
+            defaultCenter={getCenter()}
+            defaultZoom={12}
+            style={{ width: "100%", height: "100%" }}
+          >
 
-          if (lat == null || lng == null) return null;
+            {locations.map((loc: Location, index: number) => {
+              const lat = convertToDecimal(loc.latitude);
+              const lng = convertToDecimal(loc.longitude);
 
-          return (
-            <AdvancedMarker
-              key={index}
-              position={{ lat, lng }}
-              anchorLeft="50%"
-              anchorTop="100%"
-            >
+              if (lat == null || lng == null) return null;
 
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div
-                  style={{
-                    background: "#f8b4b4",
-                    border: "2px solid black",
-                    padding: "4px 8px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                    borderRadius: "4px",
-                    whiteSpace: "nowrap",
-                    marginBottom: "2px"
-                  }}
+              return (
+                <AdvancedMarker
+                  key={index}
+                  position={{ lat, lng }}
+                  anchorLeft="50%"
+                  anchorTop="100%"
                 >
-                  {loc.ID}
-                </div>
-                <div
-                  style={{
-                    width: 0,
-                    height: 0,
-                    borderLeft: "8px solid transparent",
-                    borderRight: "8px solid transparent",
-                    borderTop: "12px solid red"
-                  }}
-                />
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div
+                      style={{
+                        background: "#f8b4b4",
+                        border: "2px solid black",
+                        padding: "4px 8px",
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                        borderRadius: "4px",
+                        whiteSpace: "nowrap",
+                        marginBottom: "2px"
+                      }}
+                    >
+                      {loc.ID}
+                    </div>
 
-              </div>
-            </AdvancedMarker>
-          );
-        })}
+                    <div
+                      style={{
+                        width: 0,
+                        height: 0,
+                        borderLeft: "8px solid transparent",
+                        borderRight: "8px solid transparent",
+                        borderTop: "12px solid red"
+                      }}
+                    />
+                  </div>
+                </AdvancedMarker>
+              );
+            })}
 
-      </Map>
-    </APIProvider>
+          </Map>
+        </APIProvider>
+      </div>
+    </div>
   );
+
+
+  // return (
+  //   <APIProvider apiKey={apiKey!} libraries={['marker']}>
+  //     <Map
+  //       mapId={mapId}
+  //       defaultCenter={getCenter()}
+  //       defaultZoom={12}
+  //       style={{ width: "100%", height: "500px" }}
+  //     >
+
+  //       {locations.map((loc: Location, index: number) => {
+  //         //print
+  //         console.log(loc.latitude);
+
+  //         const lat = convertToDecimal(loc.latitude);
+  //         const lng = convertToDecimal(loc.longitude);
+
+  //         if (lat == null || lng == null) return null;
+
+  //         return (
+  //           <AdvancedMarker
+  //             key={index}
+  //             position={{ lat, lng }}
+  //             anchorLeft="50%"
+  //             anchorTop="100%"
+  //           >
+
+  //             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+  //               <div
+  //                 style={{
+  //                   background: "#f8b4b4",
+  //                   border: "2px solid black",
+  //                   padding: "4px 8px",
+  //                   fontSize: "12px",
+  //                   fontWeight: "bold",
+  //                   borderRadius: "4px",
+  //                   whiteSpace: "nowrap",
+  //                   marginBottom: "2px"
+  //                 }}
+  //               >
+  //                 {loc.ID}
+  //               </div>
+  //               <div
+  //                 style={{
+  //                   width: 0,
+  //                   height: 0,
+  //                   borderLeft: "8px solid transparent",
+  //                   borderRight: "8px solid transparent",
+  //                   borderTop: "12px solid red"
+  //                 }}
+  //               />
+
+  //             </div>
+  //           </AdvancedMarker>
+  //         );
+  //       })}
+
+  //     </Map>
+  //   </APIProvider>
+  // );
 }

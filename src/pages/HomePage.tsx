@@ -1,18 +1,27 @@
 import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="container">
+      <h1 className="main-title">
+        בית ספר בנות משה יוצאות לטיול!
+      </h1>
 
-      <button onClick={() => navigate("/login")}>
-        Login
+      <button
+        className="button"
+        onClick={() => navigate("/login")}
+      >
+        התחברות
       </button>
 
-      <button onClick={() => navigate("/register")}>
-        Register
+      <button
+        className="button"
+        onClick={() => navigate("/register")}
+      >
+        הרשמה
       </button>
     </div>
   );

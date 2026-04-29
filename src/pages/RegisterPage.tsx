@@ -3,6 +3,8 @@ import { useState } from "react";
 import { extractToken, register } from "../services/auth.service";
 import { useAppDispatch } from "../redux/store";
 import { setAuth } from "../redux/auth/authSlice";
+import styles from "./RegisterPage.module.css";
+
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -54,24 +56,28 @@ export default function RegisterPage() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <h1>Register</h1>
+    <div className={styles.container}>
+      <form className={styles.formBox} onSubmit={onSubmit}>
+        <h1 className={styles.title}>
+          בית ספר בנות משה יוצאות לטיול!
+        </h1>
 
-        <input name="id" placeholder="ID" />
-        <input name="firstName" placeholder="First Name" />
-        <input name="lastName" placeholder="Last Name" />
-        <input name="class" placeholder="Class" />
+        <input className={styles.input} name="id" placeholder="תעודת זהות" />
+        <input className={styles.input} name="firstName" placeholder="שם פרטי" />
+        <input className={styles.input} name="lastName" placeholder="שם משפחה" />
+        <input className={styles.input} name="class" placeholder="כיתה" />
 
-        <select name="role">
-          <option value="">Select role</option>
-          <option value="Student">Student</option>
-          <option value="Teacher">Teacher</option>
+
+        <select className={styles.select} name="role">
+          <option value="">בחרי </option>
+          <option value="Student">תלמידה</option>
+          <option value="Teacher">מורה</option>
         </select>
-
-        <button type="submit">Register</button>
+        <button className={styles.button} type="submit">
+          הרשמה
+        </button>
+        {message && <p className={styles.message}>{message}</p>}
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

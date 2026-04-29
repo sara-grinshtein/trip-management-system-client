@@ -3,6 +3,8 @@ import { login, extractToken } from "../services/auth.service";
 import axios from "../services/axios";
 import { useAppDispatch } from "../redux/store";
 import { setAuth } from "../redux/auth/authSlice";
+import styles from "./LoginPage.module.css";
+
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -69,14 +71,38 @@ export default function LoginPage() {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <h1>Login</h1>
+    <div className={styles.container}>
+      <form className={styles["form-box"]} onSubmit={onSubmit}>
+        <h1 className={styles["main-title"]}>
+          בית ספר בנות משה יוצאות לטיול!
+        </h1>
 
-      <input name="id" placeholder="ID" required />
-      <input name="firstName" placeholder="First Name" required />
-      <input name="lastName" placeholder="Last Name" required />
+        <input
+          className={styles.input}
+          name="id"
+          placeholder="תעודת זהות"
+          required
+        />
 
-      <button type="submit">Login</button>
-    </form>
+        <input
+          className={styles.input}
+          name="firstName"
+          placeholder="שם פרטי"
+          required
+        />
+
+        <input
+          className={styles.input}
+          name="lastName"
+          placeholder="שם משפחה"
+          required
+        />
+
+        <button className={styles.button} type="submit">
+          התחברות
+        </button>
+      </form>
+    </div>
   );
+
 }
