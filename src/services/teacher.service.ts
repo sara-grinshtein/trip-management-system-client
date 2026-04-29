@@ -1,5 +1,7 @@
+import axios from "./axios";
+
 export const getStudentLocation = async(teacherId:string)=>{
-    const res = await fetch(`/api/teacher/${teacherId}/students-locations`);
-    return res.json();
+    const res =  await axios.get(`/teacher/${teacherId}/students-locations`);
+    return res.data;
 
 }

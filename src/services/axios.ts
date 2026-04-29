@@ -1,13 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 
 // Define the base API URL and append "/api" to it
-
-const base =
-  (process.env.REACT_APP_API_URL || "").replace(/\/+$/, "") || "http://localhost:5171";
-
+const base = "https://localhost:7264";
 
 const baseURL = `${base}/api`;
 
+console.log("BASE URL:", baseURL);
 // Create an Axios instance
 const axiosInstance = axios.create({ baseURL });
 

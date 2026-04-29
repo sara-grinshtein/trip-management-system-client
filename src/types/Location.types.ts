@@ -1,12 +1,12 @@
 export type Location = {
     ID: string,
-    Longitude: Coordinate,
-    Latitude: Coordinate
+    longitude: Coordinate,
+    latitude: Coordinate
     Time: Date
 }
 
 export type Coordinate = {
-    Degrees: number,
-    Minutes: number,
-    Seconds: number
+    degrees: number,
+    minutes: number,
+    seconds: number
 }
