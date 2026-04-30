@@ -11,13 +11,14 @@ export default function TeacherPage() {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const mapId = process.env.REACT_APP_GOOGLE_MAP_ID;
 
+  //retrieve the teacherId from redux
   const teacherId = useSelector((state: RootState) => state.auth.user?.id);
   const [locations, setLocations] = useState<Location[]>([]);
+
   const locationPage = useLocation();
   console.log("teacherId:", teacherId);
   useEffect(() => {
     if (!teacherId) return;
-
     const fetchData = async () => {
       try {
         console.log("teacherId: " + teacherId);
@@ -30,9 +31,13 @@ export default function TeacherPage() {
         console.error(err);
       }
     };
+    const interval = setInterval(() => { fetchData() }, 3000);
+    return () => {
+      clearInterval(interval);
+    };
 
-    fetchData();
-  }, [teacherId,locationPage.key]);
+  },
+    [teacherId, locationPage.key]);
 
   const convertToDecimal = (coord?: Coordinate) => {
     if (!coord) return null;
@@ -41,7 +46,7 @@ export default function TeacherPage() {
   };
 
   const getCenter = () => {
-    if (!locations.length)   return null;
+    if (!locations.length) return null;
 
     const valid = locations
       .map(loc => {
@@ -51,15 +56,13 @@ export default function TeacherPage() {
       })
       .filter(Boolean) as { lat: number; lng: number }[];
 
-    // if (!valid.length) return { lat: 32.0853, lng: 34.7818 };
-
     const avgLat = valid.reduce((sum, p) => sum + p.lat, 0) / valid.length;
     const avgLng = valid.reduce((sum, p) => sum + p.lng, 0) / valid.length;
 
     return { lat: avgLat, lng: avgLng };
   };
 
-    return (
+  return (
     <div className={styles.container}>
       <h1 className={styles.title}>
         מפת מיקומי התלמידות:
@@ -74,7 +77,7 @@ export default function TeacherPage() {
           <Map
             mapId={mapId}
             center={getCenter()}
-            defaultZoom={12}
+            defaultZoom={19}
             style={{ width: "100%", height: "100%" }}
           >
 
