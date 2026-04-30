@@ -18,9 +18,15 @@ interface AuthState {
 
 // initial authentication state.
 
+const savedUser = localStorage.getItem("user");
+const savedToken = localStorage.getItem("token");
+
+console.log("savedToken: "+savedToken)
+console.log("savedUser: "+savedToken)
+
 const initialState: AuthState = {
-  user: null,
-  token: null,
+  user: savedUser?JSON.parse(savedUser): null,
+  token: savedToken|| null,
   isAuthenticated: false,
   error: null,
 };

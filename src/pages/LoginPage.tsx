@@ -56,6 +56,14 @@ export default function LoginPage() {
         token: token
       }));
 
+      const userObj = {
+        id,
+        firstName,
+        lastName,
+        role
+      }
+      localStorage.setItem("user", JSON.stringify(userObj));
+
 
       if (role == "Teacher") {
         navigate("/teacherPage")
