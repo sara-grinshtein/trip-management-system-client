@@ -5,6 +5,8 @@
   text-align: center;
   background-color: #f5f9ff;
   min-height: 100vh;
+
+  position: relative; 
 }
 
 .title {
@@ -25,4 +27,22 @@
   border-radius: 10px;
   overflow: hidden;
   border: 2px solid #ddd;
+}
+
+.topButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 16px;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.topButton:hover {
+  background-color: #45a049;
 }

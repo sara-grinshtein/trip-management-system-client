@@ -5,7 +5,7 @@ import { getStudentLocation } from "../services/teacher.service";
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { Location, Coordinate } from "../types/Location.types";
 import styles from "./TeacherPage.module.css";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function TeacherPage() {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -64,6 +64,9 @@ export default function TeacherPage() {
 
   return (
     <div className={styles.container}>
+      <Link to="/list-students" className={styles.topButton}>
+        רשימת התלמידות
+      </Link>
       <h1 className={styles.title}>
         מפת מיקומי התלמידות:
       </h1>

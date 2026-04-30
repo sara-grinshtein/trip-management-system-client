@@ -1,8 +1,8 @@
 export type Student = {
     id: string,
-    first_name: string,
-    last_name: string,
-    class_student: string,
+    firstName: string,
+    lastName: string,
+    classStudent: string,
 }
 
 export type StudentState = {
